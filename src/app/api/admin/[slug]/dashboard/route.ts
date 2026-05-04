@@ -7,7 +7,6 @@ import { dashboardService } from '@/lib/services/dashboardService';
 import { conversationService } from '@/lib/services/conversationService';
 import { integrationService } from '@/lib/services/integrationService';
 
-interface Params { params: { slug: string } }
 
 export async function GET(
   req: Request,

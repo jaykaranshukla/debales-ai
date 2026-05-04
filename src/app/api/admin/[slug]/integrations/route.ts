@@ -6,13 +6,14 @@ import { projectService } from '@/lib/services/projectService';
 import { integrationService } from '@/lib/services/integrationService';
 import { ToggleIntegrationSchema } from '@/lib/zod/schemas';
 
-interface Params { params: { slug: string } }
+interface Params { params: Promise<{ slug: string }> }
 
 export async function GET(_req: NextRequest, { params }: Params) {
+  const { slug } = await params;
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const project = await projectService.getBySlug(params.slug);
+  const project = await projectService.getBySlug(slug);
   if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
 
   if (!canManageIntegrations(session.user.id, project._id.toString(), session.user.memberships)) {
@@ -24,10 +25,11 @@ export async function GET(_req: NextRequest, { params }: Params) {
 }
 
 export async function PUT(req: NextRequest, { params }: Params) {
+  const { slug } = await params;
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const project = await projectService.getBySlug(params.slug);
+  const project = await projectService.getBySlug(slug);
   if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
 
   if (!canManageIntegrations(session.user.id, project._id.toString(), session.user.memberships)) {
