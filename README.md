@@ -4,6 +4,8 @@
 
 A production-style multi-tenant AI assistant platform with a **config-driven admin dashboard**, real AI integration via Groq, and strict layered architecture.
 
+🚀 **Live Demo:** [https://debales-ai-blue.vercel.app](https://debales-ai-blue.vercel.app/login)
+
 ---
 
 ## Tech Stack
